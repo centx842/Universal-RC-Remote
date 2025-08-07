@@ -36,7 +36,7 @@ To develop and run this app, you'll need:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/rc-toy-remote.git
+   git clone https://github.com/centx842/Universal-RC-Remote.git
    ```
 2. **Install Dependencies**:
    - Python: `pip install -r requirements.txt` (update with specific libraries).
