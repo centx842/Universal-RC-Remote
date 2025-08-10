@@ -1,6 +1,6 @@
 # Universal RC Remote Control App
 
-Welcome to the RC Toy Remote Control App! This project is designed to create a small, versatile remote control application for RC toys, styled after the familiar button layout of an Xbox controller. Built with Python and HTML, this app operates as both a desktop .NET application and a mobile application, offering seamless control over RC toys via Bluetooth, Wi-Fi, and RF communication modes.
+This project is designed to create a small, versatile remote control application for RC toys, styled after the familiar button layout of an Xbox controller. Built with Python and HTML, this app operates as both a desktop .NET application and a mobile application, offering seamless control over RC toys via Bluetooth, Wi-Fi, and RF communication modes.
 
 ## Features
 
