@@ -38,12 +38,44 @@ To develop and run this app, you'll need:
    ```bash
    git clone https://github.com/centx842/Universal-RC-Remote.git
    ```
-2. **Install Dependencies**:
+   
+2. **Check for current Python Version**:
+   - First check your Python Version on Windows or Ubuntu Machine (using either 'python', 'python3', or even 'python310' in case of Ubuntu Machine)
+     ```bash
+     python --version
+     ```
+   - If Python version appears, proceed to the next step otherwise Install from Python.org.
+  
+3. **Creating an Environment**: 
+   - Move into your Project Folder:
+     ```bash
+     cd path\to\your\project
+     ```
+   - Create your Environment Folder within the Project Folder:
+     ```bash
+     python -m venv <env_name>
+     ```
+
+4. **Activate Environment**:
+   - Enter in your Terminal (Windows) the Following commands, accessing your Environment Folder:
+     ```bash
+     <env_name>\Scripts\activate
+     ```
+   -Alternatively, while using a Linux Machine:
+     ```bash
+     source env/Scripts/activate
+     ```
+     
+5. **Install Dependencies**:
    - Python: `pip install -r requirements.txt` (update with specific libraries).
    - .NET: Ensure the .NET Framework is installed.
    - Mobile: Set up Android Studio and Xcode as needed.
-3. **Run the App**:
-   - Desktop: Launch the .NET application.
+     
+6. **Run the App**:
+   - Desktop: Launch the .NET application, using:
+     ```bash
+     python main.py
+     ```
    - Mobile: Build and deploy via your chosen mobile framework.
 
 ## Development Notes
