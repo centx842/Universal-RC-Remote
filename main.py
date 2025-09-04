@@ -1,17 +1,19 @@
 from tkinter import *
-from RemoteApp.UI import AppUI
-from RemoteApp.commands import ButtonCommands
+from RCApp.UI import AppUI
+
 
 if __name__ == "__main__":
     window = Tk()
     window.title("Universal RC Remote Controller")
     window.geometry("800x600")
 
+    # Load and set window icon
+    icon_path = "images/icon.png"
+    icon_img = PhotoImage(file=icon_path)
+    window.iconphoto(False, icon_img)
+    
     # Initialize the UI
     app_ui = AppUI(window)
-
-    # # Bind commands to buttons or other UI elements
-    # app_ui.bind_commands(commands)
 
     # Start the main loop
     window.mainloop()
