@@ -5,4 +5,5 @@ pyserial==3.5 # For serial communication with RC hardware
 paho-mqtt # MQTT for Wi-Fi communication
 # pynrf24 # RF communication using nRF24L01 modules
 numpy==1.23.5 # For numerical operations and data handling
+pytz
 #pygame==2.1.0 # For gamepad support and joystick handling

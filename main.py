@@ -3,9 +3,13 @@ from RCApp.UI import AppUI
 
 
 if __name__ == "__main__":
+    
+    # Initializing the Tkinter Window
     window = Tk()
     window.title("Universal RC Remote Controller")
-    window.geometry("800x600")
+    
+    # Set resizability
+    window.resizable(True, True)
 
     # Load and set window icon
     icon_path = "images/icon.png"
