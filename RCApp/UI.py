@@ -250,6 +250,12 @@ class AppUI:
             self.mode = "Unknown"
         self.slider_value.configure(text=self.mode)
 
+        # Handle MQTT connection based on mode
+        if self.mode == "WiFi Mode":
+            self.commands.mqtt_client.connect()
+        else:
+            self.commands.mqtt_client.disconnect()
+
 
     def send_msg(self, msg):
 
