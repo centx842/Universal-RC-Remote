@@ -6,7 +6,7 @@ from RCApp.utils import MQTTClient
 class ButtonCommands:
 
     def __init__(self, root):
-        self.root = root 
+        self.root = root
         self._powerStatus = False 
         self.mqtt_client = MQTTClient()     
 
@@ -31,7 +31,7 @@ class ButtonCommands:
 
     def send_command(self, text):
         if self._powerStatus == True:
-            self.mqtt_client.send_command(text)  # Client internally checks WiFi connection prior sending message.
+            # self.mqtt_client.send_command(text)
             pass
 
 

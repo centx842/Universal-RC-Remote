@@ -244,17 +244,11 @@ class AppUI:
             self.mode = "WiFi Mode"
         elif 0.5 <= value < 0.75:
             self.mode = "BT Mode"
-        elif 0.75 <= value < 1.0:
+        elif 0.75 <= value <= 1.0:
             self.mode = "RF Mode"
         else:
             self.mode = "Unknown"
         self.slider_value.configure(text=self.mode)
-
-        # Handle MQTT connection based on mode
-        if self.mode == "WiFi Mode":
-            self.commands.mqtt_client.connect()
-        else:
-            self.commands.mqtt_client.disconnect()
 
 
     def send_msg(self, msg):

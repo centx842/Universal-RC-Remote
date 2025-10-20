@@ -65,6 +65,12 @@ To develop and run this app, you'll need:
      ```bash
      source env/Scripts/activate
      ```
+
+    # Install dependencies:
+    
+```bash
+pip install --upgrade pip setuptools wheel build
+```
      
 5. **Install Dependencies**:
    - Python: `pip install -r requirements.txt` (update with specific libraries).
