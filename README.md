@@ -162,6 +162,79 @@ main.exe
 
 ---
 
+# Release the Binary
+
+## 🚀 **1. Prepare Your Binary**
+
+Make sure your binary is built and ready (example for Linux):
+
+```bash
+cd dist
+ls
+# main
+```
+
+Rename it with version info (recommended):
+
+```bash
+mv main universal-rc-remote-v1.0-linux
+```
+
+Optional but best practice:
+Compress the file to reduce size and make upload easier:
+
+```bash
+tar -czvf universal-rc-remote-v1.0-linux.tar.gz universal-rc-remote-v1.0-linux
+```
+
+---
+
+## 🏷️ **2. Tag Your Release in Git**
+
+Each GitHub release is linked to a **Git tag**.
+
+Create and push a new tag:
+
+```bash
+git tag -a v1.0 -m "First stable release with Linux binary build"
+git push origin v1.0
+```
+
+🧠 **Memory trick**:
+
+> “Tag = Time capsule” — it freezes your repo at that version.
+
+---
+
+## 🧑‍💻 **3. Create the Release (via GitHub Web)**
+
+1. Go to your repo → **Releases** tab → click **“Draft a new release”**
+2. Choose **existing tag (`v1.0`)**
+3. Fill in:
+
+   * **Release title:** `Universal RC Remote v1.0`
+   * **Description:**
+
+     ```
+     🎉 First public release!
+
+     ✅ Features:
+     - Linux binary build for standalone use
+     - MQTT & Serial communication support
+     - Modern UI using CustomTkinter
+
+     🧩 How to use:
+     1. Download the `.tar.gz` file
+     2. Extract it:
+        tar -xzvf universal-rc-remote-v1.0-linux.tar.gz
+     3. Run:
+        ./universal-rc-remote-v1.0-linux
+     ```
+4. Upload your binary file (`.tar.gz` or `.exe`).
+5. Click **Publish release**.
+
+---
+
 ## Contributing
 
 We’d love your help! Please check the [contributing guidelines](CONTRIBUTING.md) before submitting pull requests.
