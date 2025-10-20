@@ -1,11 +1,15 @@
-tk==0.1.0 # Tkinter for GUI (included with Python, listed for clarity) 
-customtkinter==5.2.2 # Modern Tkinter widgets for enhanced UI (joysticks, sliders, buttons)
-pyserial==3.5 # For serial communication with RC hardware
-# pybluez # For Bluetooth communication with RC hardware (Windows/Linux, macOS Compatibility may vary)
-paho-mqtt # MQTT for Wi-Fi communication
-# pynrf24 # RF communication using nRF24L01 modules
-# numpy==1.23.5 # For numerical operations and data handling
+altgraph==0.17.4
+build==1.3.0
+customtkinter==5.2.2
+darkdetect==0.8.0
 numpy==1.26.4
-
-pytz
-#pygame==2.1.0 # For gamepad support and joystick handling
+packaging==25.0
+paho-mqtt==2.1.0
+pyinstaller==6.16.0
+pyinstaller-hooks-contrib==2025.9
+pyproject_hooks==1.2.0
+pyserial==3.5
+pytz==2025.2
+setuptools==80.9.0
+tk==0.1.0
+wheel==0.45.1
