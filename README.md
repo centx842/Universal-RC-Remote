@@ -56,39 +56,111 @@ To develop and run this app, you'll need:
      python -m venv <env_name>
      ```
 
-4. **Activate Environment**:
-   - Enter in your Terminal (Windows) the Following commands, accessing your Environment Folder:
-     ```bash
-     <env_name>\Scripts\activate
-     ```
-   -Alternatively, while using a Linux Machine:
-     ```bash
-     source env/Scripts/activate
-     ```
+### 4. **Activate the Virtual Environment**
 
-    # Install dependencies:
-    
+* **For Windows:**
+
+  ```bash
+  <env_name>\Scripts\activate
+  ```
+
+* **For Linux/macOS:**
+
+  ```bash
+  source <env_name>/bin/activate
+  ```
+
+Once activated, upgrade the essential build tools:
+
 ```bash
 pip install --upgrade pip setuptools wheel build
 ```
-     
-5. **Install Dependencies**:
-   - Python: `pip install -r requirements.txt` (update with specific libraries).
-   - .NET: Ensure the .NET Framework is installed.
-   - Mobile: Set up Android Studio and Xcode as needed.
-     
-6. **Run the App**:
-   - Desktop: Launch the .NET application, using:
-     ```bash
-     python main.py
-     ```
-   - Mobile: Build and deploy via your chosen mobile framework.
+
+---
+
+### 5. **Install Dependencies**
+
+* **Python:**
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+  *(Update this file with any additional libraries as needed.)*
+
+* **.NET:**
+  Ensure the **.NET SDK/Runtime** is installed and available in your system PATH.
+
+* **Mobile:**
+  Install and configure **Android Studio** and/or **Xcode** depending on your target platform.
+
+---
+
+### 6. **Run the Application**
+
+* **Desktop:**
+
+  ```bash
+  python main.py
+  ```
 
 ## Development Notes
 
 - **Desktop**: Integrate Python with .NET using tools like IronPython or subprocesses.
 - **Mobile**: Consider frameworks like BeeWare or Kivy for Python-based mobile apps with HTML frontends.
 - **Communication**: Test with actual RC toys to ensure compatibility across all modes.
+
+---
+
+## ⚙️ **Build Binary**
+
+### 🐧 **For Linux / macOS**
+
+```bash
+pyinstaller --onefile --add-data "images:images" main.py
+```
+
+📁 Add more resources later:
+
+```bash
+pyinstaller --onefile \
+  --add-data "images:images" \
+  --add-data "sounds:sounds" \
+  --add-data "config:config" main.py
+```
+
+▶️ **Run the Binary**
+
+```bash
+cd dist
+./main
+```
+
+---
+
+### 🪟 **For Windows**
+
+```powershell
+pyinstaller --onefile --add-data "images;images" main.py
+```
+
+📁 Add more resources later:
+
+```powershell
+pyinstaller --onefile `
+  --add-data "images;images" `
+  --add-data "sounds;sounds" `
+  --add-data "config;config" main.py
+```
+
+▶️ **Run the Binary**
+
+```powershell
+cd dist
+main.exe
+```
+
+---
 
 ## Contributing
 

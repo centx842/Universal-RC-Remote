@@ -1,6 +1,6 @@
 from tkinter import *
 # import customtkinter as ctk
-from RCApp.utils import MQTTClient
+# from RCApp.utils import MQTTClient
 
 
 class ButtonCommands:
@@ -8,7 +8,7 @@ class ButtonCommands:
     def __init__(self, root):
         self.root = root
         self._powerStatus = False 
-        self.mqtt_client = MQTTClient()     
+        # self.mqtt_client = MQTTClient()     
 
     #Get Method for the 'PowerStatus' attribute. 
     @property
