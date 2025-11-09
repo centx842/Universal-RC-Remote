@@ -5,7 +5,7 @@ from RCApp.utils import WiFiClient
 class ButtonCommands:
 
     def __init__(self, root):
-        self.root = root 
+        self.root = root
         self._powerStatus = False 
         self.wifi_client = WiFiClient()     
 

@@ -206,8 +206,9 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Ignore Python Environments
+# Ignoring Environments
 /RCAppEnv/
+/RCAppEnv-Linux/
 
 # Ignore Testing Modules for Clients
 /test/
