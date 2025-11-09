@@ -208,3 +208,6 @@ __marimo__/
 
 # Ignore Python Environments
 /RCAppEnv/
+
+# Ignore Testing Modules for Clients
+/test/

@@ -1,6 +1,5 @@
 from tkinter import *
-# import customtkinter as ctk
-from RCApp.utils import MQTTClient
+from RCApp.utils import WiFiClient
 
 
 class ButtonCommands:
@@ -8,7 +7,7 @@ class ButtonCommands:
     def __init__(self, root):
         self.root = root 
         self._powerStatus = False 
-        self.mqtt_client = MQTTClient()     
+        self.wifi_client = WiFiClient()     
 
     #Get Method for the 'PowerStatus' attribute. 
     @property
@@ -31,8 +30,7 @@ class ButtonCommands:
 
     def send_command(self, text):
         if self._powerStatus == True:
-            self.mqtt_client.send_command(text)  # Client internally checks WiFi connection prior sending message.
-            pass
+            self.wifi_client.send_command(text)  # Client internally checks WiFi connection prior sending message.
 
 
 class JoystickCommands:

@@ -2,7 +2,7 @@ from tkinter import *
 import customtkinter as ctk
 from customtkinter import CTkButton, CTkCanvas, CTkTextbox, CTkFrame, CTkLabel, CTkSlider
 from RCApp.commands import ButtonCommands, JoystickCommands
-from RCApp.utils import add_time_stamp
+from RCApp.utils import add_time_stamp, WiFiClient
 
 
 class AppUI:
@@ -17,6 +17,7 @@ class AppUI:
         self.slider_steps = 3               # Number of steps in the slider (0 to 3)
         self.mode = "None"                  # Placeholder for communication channel (e.g., serial port)
         self.joystick_commands = JoystickCommands(root)
+        self.wifi_client = WiFiClient()     # Initialize WiFi client
         # self.joystick_position = (0, 0)
         
         # Define color scheme
@@ -240,21 +241,20 @@ class AppUI:
     def set_slider_value(self, value):
         if 0 <= value < 0.25:
             self.mode = "None"
+            self.wifi_client.disconnect()  # Disconnect WiFi if connected
         elif 0.25 <= value < 0.5:
             self.mode = "WiFi Mode"
+            if self.commands.powerStatus:  # Only connect if power is on
+                self.wifi_client.connect()
         elif 0.5 <= value < 0.75:
             self.mode = "BT Mode"
+            self.wifi_client.disconnect()  # Disconnect WiFi if connected
         elif 0.75 <= value < 1.0:
             self.mode = "RF Mode"
+            self.wifi_client.disconnect()  # Disconnect WiFi if connected
         else:
             self.mode = "Unknown"
         self.slider_value.configure(text=self.mode)
-
-        # Handle MQTT connection based on mode
-        if self.mode == "WiFi Mode":
-            self.commands.mqtt_client.connect()
-        else:
-            self.commands.mqtt_client.disconnect()
 
 
     def send_msg(self, msg):
@@ -274,8 +274,11 @@ class AppUI:
             self.logBoard.configure(state="disabled")
             self.logBoard.see("end")  # Scroll to the end
 
-            #Send Message to the RC Vehicle
-            self.commands.send_command(text)
+            #Send Message to the RC Vehicle based on mode
+            if self.mode == "WiFi Mode":
+                self.wifi_client.send_command(text)
+            else:
+                self.commands.send_command(text)
 
 
     def get_camera_feed(self):

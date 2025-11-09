@@ -2,57 +2,75 @@ import pytz
 # import cv2
 # from PIL import Image, ImageTk
 from datetime import date, datetime
-import paho.mqtt.client as mqtt
+# import paho.mqtt.client as mqtt
+import socket
+import threading
+import time
 
 
-''' Placeholder Classes and Functions to simulate sending a command over WiFi, Bluetooth or RF Hardware'''
-class MQTTClient:
-    def __init__(self, broker="localhost", port=1883, topic="rc/commands"):
-        self.broker = broker
+''' Function to add Date and Time Stamp to the Log Messages '''
+class WiFiClient:
+
+    def __init__(self, host="localhost", port=12345):
+        self.host = host
         self.port = port
-        self.topic = topic
-        self.client = mqtt.Client()
-        self.client.on_connect = self.on_connect
-        self.client.on_disconnect = self.on_disconnect
-        self.connected = False
+        self.sock = None
+        self.server_addr = (host, port)
+        self.lock = threading.Lock()
+        self.create_socket()
 
-    def on_connect(self, client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-            self.connected = True
-        else:
-            print(f"Failed to connect, return code {rc}")
 
-    def on_disconnect(self, client, userdata, rc):
-        print("Disconnected from MQTT Broker")
-        self.connected = False
-    
-    def connect(self):
-        if not self.connected:
+    def create_socket(self):
+        """Initialize UDP socket"""
+        with self.lock:
             try:
-                self.client.connect(self.broker, self.port, 60)
-                self.client.loop_start()
+                if self.sock:
+                    self.sock.close()
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                # Set timeout for non-blocking operations
+                self.sock.settimeout(1.0)
+                print(f"UDP client initialized for {self.host}:{self.port}")
             except Exception as e:
-                print(f"Failed to connect to MQTT Broker: {e}")
-                self.connected = False
+                print(f"Failed to initialize UDP socket: {e}")
+                self.sock = None
+
+
+    def connect(self):
+        """Initialize UDP socket (UDP is connectionless)"""
+        self.create_socket()
+
 
     def disconnect(self):
-        if self.connected:
-            self.client.loop_stop()   # Stop the loop thread in the background
-            self.client.disconnect()
-            self.connected = False
-    
+        """Close UDP socket"""
+        with self.lock:
+            if self.sock:
+                try:
+                    self.sock.close()
+                    print("UDP client socket closed")
+                except Exception as e:
+                    print(f"Error closing UDP socket: {e}")
+                finally:
+                    self.sock = None
+
+
     def send_command(self, message):
-        if self.connected:
-            self.client.publish(self.topic, message)
-            print(f"Published message to topic: {self.topic}: {message}")
-        else:
+        """Send a UDP command to the server"""
+        with self.lock:
+            if not self.sock:
+                print("UDP socket not initialized")
+                self.create_socket()
+                if not self.sock:
+                    return False
+
             try:
-                self.client.connect(self.broker, self.port, 60)
-                self.client.loop_start()
-                self.client.publish(self.topic, message)
+                # Send the message to the server
+                self.sock.sendto(message.encode(), self.server_addr)
+                print(f"Sent UDP command: {message}")
+                return True
             except Exception as e:
-                print(f"Failed to connect to MQTT Broker: {e}")
+                print(f"Failed to send UDP command: {e}")
+                return False
+
 
 
 def btCommand(command):
@@ -97,9 +115,7 @@ def rfCommand(command):
 #             self.camera_label.configure(image="", text="Camera Feed")
 
 
-''' Function to add Date and Time Stamp to the Log Messages '''
 def add_time_stamp():
-    
     # Define the date
     date_today = date.today()
     date_str = date_today.isoformat()
