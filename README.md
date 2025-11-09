@@ -56,39 +56,184 @@ To develop and run this app, you'll need:
      python -m venv <env_name>
      ```
 
-4. **Activate Environment**:
-   - Enter in your Terminal (Windows) the Following commands, accessing your Environment Folder:
-     ```bash
-     <env_name>\Scripts\activate
-     ```
-   -Alternatively, while using a Linux Machine:
-     ```bash
-     source env/Scripts/activate
-     ```
+### 4. **Activate the Virtual Environment**
 
-    # Install dependencies:
-    
+* **For Windows:**
+
+  ```bash
+  <env_name>\Scripts\activate
+  ```
+
+* **For Linux/macOS:**
+
+  ```bash
+  source <env_name>/bin/activate
+  ```
+
+Once activated, upgrade the essential build tools:
+
 ```bash
 pip install --upgrade pip setuptools wheel build
 ```
-     
-5. **Install Dependencies**:
-   - Python: `pip install -r requirements.txt` (update with specific libraries).
-   - .NET: Ensure the .NET Framework is installed.
-   - Mobile: Set up Android Studio and Xcode as needed.
-     
-6. **Run the App**:
-   - Desktop: Launch the .NET application, using:
-     ```bash
-     python main.py
-     ```
-   - Mobile: Build and deploy via your chosen mobile framework.
+
+---
+
+### 5. **Install Dependencies**
+
+* **Python:**
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+  *(Update this file with any additional libraries as needed.)*
+
+* **.NET:**
+  Ensure the **.NET SDK/Runtime** is installed and available in your system PATH.
+
+* **Mobile:**
+  Install and configure **Android Studio** and/or **Xcode** depending on your target platform.
+
+---
+
+### 6. **Run the Application**
+
+* **Desktop:**
+
+  ```bash
+  python main.py
+  ```
 
 ## Development Notes
 
 - **Desktop**: Integrate Python with .NET using tools like IronPython or subprocesses.
 - **Mobile**: Consider frameworks like BeeWare or Kivy for Python-based mobile apps with HTML frontends.
 - **Communication**: Test with actual RC toys to ensure compatibility across all modes.
+
+---
+
+## ⚙️ **Build Binary**
+
+### 🐧 **For Linux / macOS**
+
+```bash
+pyinstaller --onefile --add-data "images:images" main.py
+```
+
+📁 Add more resources later:
+
+```bash
+pyinstaller --onefile \
+  --add-data "images:images" \
+  --add-data "sounds:sounds" \
+  --add-data "config:config" main.py
+```
+
+▶️ **Run the Binary**
+
+```bash
+cd dist
+./main
+```
+
+---
+
+### 🪟 **For Windows**
+
+```powershell
+pyinstaller --onefile --add-data "images;images" main.py
+```
+
+📁 Add more resources later:
+
+```powershell
+pyinstaller --onefile `
+  --add-data "images;images" `
+  --add-data "sounds;sounds" `
+  --add-data "config;config" main.py
+```
+
+▶️ **Run the Binary**
+
+```powershell
+cd dist
+main.exe
+```
+
+---
+
+# Release the Binary
+
+## 🚀 **1. Prepare Your Binary**
+
+Make sure your binary is built and ready (example for Linux):
+
+```bash
+cd dist
+ls
+# main
+```
+
+Rename it with version info (recommended):
+
+```bash
+mv main universal-rc-remote-v1.0-linux
+```
+
+Optional but best practice:
+Compress the file to reduce size and make upload easier:
+
+```bash
+tar -czvf universal-rc-remote-v1.0-linux.tar.gz universal-rc-remote-v1.0-linux
+```
+
+---
+
+## 🏷️ **2. Tag Your Release in Git**
+
+Each GitHub release is linked to a **Git tag**.
+
+Create and push a new tag:
+
+```bash
+git tag -a v1.0 -m "First stable release with Linux binary build"
+git push origin v1.0
+```
+
+🧠 **Memory trick**:
+
+> “Tag = Time capsule” — it freezes your repo at that version.
+
+---
+
+## 🧑‍💻 **3. Create the Release (via GitHub Web)**
+
+1. Go to your repo → **Releases** tab → click **“Draft a new release”**
+2. Choose **existing tag (`v1.0`)**
+3. Fill in:
+
+   * **Release title:** `Universal RC Remote v1.0`
+   * **Description:**
+
+     ```
+     🎉 First public release!
+
+     ✅ Features:
+     - Linux binary build for standalone use
+     - MQTT & Serial communication support
+     - Modern UI using CustomTkinter
+
+     🧩 How to use:
+     1. Download the `.tar.gz` file
+     2. Extract it:
+        tar -xzvf universal-rc-remote-v1.0-linux.tar.gz
+     3. Run:
+        ./universal-rc-remote-v1.0-linux
+     ```
+4. Upload your binary file (`.tar.gz` or `.exe`).
+5. Click **Publish release**.
+
+---
 
 ## Contributing
 
