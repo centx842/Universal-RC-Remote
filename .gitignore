@@ -209,3 +209,6 @@ __marimo__/
 # Ignoring Environments
 /RCAppEnv/
 /RCAppEnv-Linux/
+
+# Ignore Testing Modules for Clients
+/test/
