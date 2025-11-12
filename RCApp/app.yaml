@@ -1,0 +1,31 @@
+app:
+  screen_width: 800
+  screen_height: 600
+  color_scheme:
+    red: "#FF0000"
+    green: "#00FF00"
+    black: "#000000"
+    darker-gray: "#505050"
+    medium-gray: "#808080"
+    light-gray: "#B1ABAB"
+    white: "#FFFFFF"
+  slider:
+    steps: 3
+    mode: None
+  camera_feed:
+    cam_idx: 1
+    URL: "localhost"
+    port: 8080
+    fps: 60
+    imgtk:
+      width: 200
+      height: 150
+  comms:
+    wifi:
+      URL: "localhost"
+      port: 12345
+    bt:
+      MAC: "usb::0"
+    rf:
+      device_id: "1234"
+

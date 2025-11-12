@@ -1,0 +1,30 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "App-Main-Backend-UI",
+    "App-Main-Frontend-UI",
+    "App-Modules-Dev",
+    "feat/binary-artifact",
+    "fix/revert-the-ubuntu-version",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "App-Main-Backend-UI": "main",
+    "App-Main-Frontend-UI": "main",
+    "App-Modules-Dev": "main",
+    "feat/binary-artifact": "main",
+    "fix/revert-the-ubuntu-version": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "App-Main-Backend-UI",
+    "App-Main-Frontend-UI",
+    "App-Modules-Dev",
+    "feat/binary-artifact",
+    "fix/revert-the-ubuntu-version",
+    "origin"
+  ]
+}

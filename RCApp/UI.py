@@ -1,9 +1,10 @@
 from tkinter import *
 import customtkinter as ctk
 from customtkinter import CTkButton, CTkCanvas, CTkTextbox, CTkFrame, CTkLabel, CTkSlider
-from RCApp.commands import ButtonCommands, JoystickCommands
-from RCApp.utils import add_time_stamp, WiFiClient
 
+from RCApp.commands import ButtonCommands, JoystickCommands, CameraCommands
+
+from RCApp.utils import add_time_stamp, WiFiClient
 
 class AppUI:
     
@@ -16,10 +17,12 @@ class AppUI:
         self.power = self.commands.powerStatus
         self.slider_steps = 3               # Number of steps in the slider (0 to 3)
         self.mode = "None"                  # Placeholder for communication channel (e.g., serial port)
-        self.joystick_commands = JoystickCommands(root)
-        self.wifi_client = WiFiClient()     # Initialize WiFi client
-        # self.joystick_position = (0, 0)
         
+        # Initializing all Dynamic Components
+        self.joystick_commands = JoystickCommands(root)
+        self.wifi_client = WiFiClient()     
+        self.camera_feed = CameraCommands()
+
         # Define color scheme
         self.color_scheme = {"W":"#FFFFFF",     #White
                         "LG":"#B1ABAB",         #Lighter-Gray
@@ -77,17 +80,19 @@ class AppUI:
         self.slider.set(0)
         self.slider_value.configure(text="None")
 
+        self.btn_camera = CTkButton(button_frame, text="Camera", width=10, hover_color=self.color_scheme["DG"], fg_color=self.color_scheme["R"],
+                              command=self.toggle_camera_feed)
+        self.btn_camera.pack(side="left", padx=5)
+
         self.btn2 = CTkButton(button_frame, text="Stop", width=10, hover_color=self.color_scheme["DG"], fg_color=self.color_scheme["R"],
                               command = lambda: self.send_msg("S"))
         self.btn2.pack(side="left", padx=5)
         
-        self.btn1 = CTkButton(button_frame, text="Power", width=10, hover_color=self.color_scheme["DG"], 
+        self.btn_power = CTkButton(button_frame, text="Power", width=10, hover_color=self.color_scheme["DG"], 
                               fg_color=self.color_scheme["R"], command=self.toggle_power)         
-        self.btn1.pack(side="left", padx=5)
+        self.btn_power.pack(side="left", padx=5)
 
         
-
-
         # ROW 2 --- Additional Buttons 
         aux_frame = CTkFrame(self.main_frame, fg_color=self.color_scheme["LG"])
         aux_frame.grid(row=1, column=0, sticky="ew", pady=10)
@@ -148,38 +153,33 @@ class AppUI:
         camera_frame.pack(side="left", expand=True, fill="both", padx=20, pady=10)
         camera_label = CTkLabel(camera_frame, text="Camera Feed", font=("Arial", 14), fg_color=self.color_scheme["MG"], width=200, height=150)
         camera_label.pack(expand=True, fill="both", padx=10, pady=10)
-
-        # ...inside create_widgets...
-        # camera_frame = CTkFrame(pads_frame, fg_color=self.color_scheme["MG"], border_color=self.color_scheme["Bl"], border_width=2)
-        # camera_frame.pack(side="left", expand=True, fill="both", padx=20, pady=10)
-        # self.camera_label = CTkLabel(camera_frame, text="Camera Feed", font=("Arial", 14), fg_color=self.color_scheme["MG"], width=200, height=150)
-        # self.camera_label.pack(expand=True, fill="both", padx=10, pady=10)
-
+        self.camera_feed.set_camera_label(camera_label)
+        
         # Sub-Frame 3 (For Right Directional Pad)
         right_pad = CTkFrame(pads_frame, fg_color=self.color_scheme["LG"])
         right_pad.pack(side="left", expand=True, fill="both", padx=20)
         right_pad.rowconfigure([0,1,2], weight=1)
         right_pad.columnconfigure([0,1,2], weight=1)
 
-        self.btn3 = CTkButton(right_pad, text="Forward", width=10, fg_color=self.color_scheme["MG"],
+        self.btn_dforward = CTkButton(right_pad, text="Forward", width=10, fg_color=self.color_scheme["MG"],
                               hover_color=self.color_scheme["DG"], border_color=self.color_scheme["Bl"],  
                             command = lambda: self.send_msg("F"), border_width=2)
-        self.btn3.grid(row=0, column=1)
+        self.btn_dforward.grid(row=0, column=1)
 
-        self.btn5 = CTkButton(right_pad, text="Left", width=10, fg_color=self.color_scheme["MG"],
+        self.btn_dleft = CTkButton(right_pad, text="Left", width=10, fg_color=self.color_scheme["MG"],
                               hover_color=self.color_scheme["DG"], border_color=self.color_scheme["Bl"], 
                             command = lambda: self.send_msg("L"), border_width=2)
-        self.btn5.grid(row=1, column=0)
+        self.btn_dleft.grid(row=1, column=0)
 
-        self.btn6 = CTkButton(right_pad, text="Right", width=10, fg_color=self.color_scheme["MG"],
+        self.btn_dright = CTkButton(right_pad, text="Right", width=10, fg_color=self.color_scheme["MG"],
                               hover_color=self.color_scheme["DG"], border_color=self.color_scheme["Bl"], 
                             command = lambda: self.send_msg("R"), border_width=2)
-        self.btn6.grid(row=1, column=2)
+        self.btn_dright.grid(row=1, column=2)
 
-        self.btn4 = CTkButton(right_pad, text="Backward", width=10, fg_color=self.color_scheme["MG"],
+        self.btn_dbackward = CTkButton(right_pad, text="Backward", width=10, fg_color=self.color_scheme["MG"],
                               hover_color=self.color_scheme["DG"], border_color=self.color_scheme["Bl"], 
                             command = lambda: self.send_msg("B"), border_width=2)
-        self.btn4.grid(row=2, column=1)
+        self.btn_dbackward.grid(row=2, column=1)
 
         
         # ROW 4 --- JoySticks Buttons
@@ -233,11 +233,19 @@ class AppUI:
     def toggle_power(self):
         self.power = self.commands.toggle_power()
         if self.power == True:
-            self.btn1.configure(fg_color = self.color_scheme["G"])
+            self.btn_power.configure(fg_color = self.color_scheme["G"])
         elif self.power == False:
-            self.btn1.configure(fg_color = self.color_scheme["R"])
+            self.btn_power.configure(fg_color = self.color_scheme["R"])
 
-
+    
+    def toggle_camera_feed(self):
+        self.camera_val = self.camera_feed.toggle_camera_feed()
+        if self.camera_val == True:
+            self.btn_camera.configure(fg_color = self.color_scheme["G"])
+        elif self.camera_val == False:
+            self.btn_camera.configure(fg_color = self.color_scheme["R"])
+        
+    
     def set_slider_value(self, value):
         if 0 <= value < 0.25:
             self.mode = "None"
@@ -248,7 +256,7 @@ class AppUI:
                 self.wifi_client.connect()
         elif 0.5 <= value < 0.75:
             self.mode = "BT Mode"
-            self.wifi_client.disconnect()  # Disconnect WiFi if connected
+            self.wifi_clifrom RCApp.commands import ButtonCommands, JoystickCommandsent.disconnect()  # Disconnect WiFi if connected
         elif 0.75 <= value < 1.0:
             self.mode = "RF Mode"
             self.wifi_client.disconnect()  # Disconnect WiFi if connected
@@ -279,10 +287,6 @@ class AppUI:
                 self.wifi_client.send_command(text)
             else:
                 self.commands.send_command(text)
-
-
-    def get_camera_feed(self):
-        pass
 
 
     def get_joystick_position(self):

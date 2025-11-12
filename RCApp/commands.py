@@ -1,5 +1,5 @@
 from tkinter import *
-from RCApp.utils import WiFiClient
+from RCApp.utils import WiFiClient, CameraFeed
 
 
 class ButtonCommands:
@@ -80,11 +80,55 @@ class JoystickCommands:
 
 class CameraCommands:
 
-    def __init__(self, root):
-        self.root = root
+    def __init__(self):
+        self._camStatus = False 
+        self.camera_id = 0                      # Changed from 1 to 0 (default camera)
+        self.feed = CameraFeed(self.camera_id)     
 
+
+    #Set Method for Camera Label
+    def set_camera_label(self, label):
+        if self.feed:
+            self.feed.set_label(label)
+
+
+    #Get and Set Methods for the 'CameraStatus' attribute. 
+    @property
+    def camStatus(self):
+        return self._camStatus
+
+    @camStatus.setter
+    def camStatus(self, status):
+        self._camStatus = status
+
+    
+    def toggle_camera_feed(self):
+        if self.camStatus == True:
+            print("Stopping Camera Feed...")
+            self.camStatus = False
+            self.stop_camera()
+        elif self.camStatus == False:
+            print("Starting Camera Feed...")
+            self.camStatus = True
+            self.start_camera()
+        return self.camStatus
+    
+    
     def start_camera(self):
-        print("Camera Started")
+        if not self.feed:
+            print("Camera Feed Not Initialized...")
+            return
+        if self.feed.connect():
+            self.feed.start_stream()
+            print("Camera Started...")
+        else:
+            print("Failed to connect to camera.")
+            self.camStatus = False
+
 
     def stop_camera(self):
-        print("Camera Stopped")
+        if self.feed:
+            self.feed.disconnect()
+            print("Camera Stopped...")
+        else:
+            print("No camera feed to stop.")
