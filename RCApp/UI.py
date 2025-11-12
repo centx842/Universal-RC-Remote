@@ -1,9 +1,10 @@
 from tkinter import *
 import customtkinter as ctk
 from customtkinter import CTkButton, CTkCanvas, CTkTextbox, CTkFrame, CTkLabel, CTkSlider
-from RCApp.commands import ButtonCommands, JoystickCommands, CameraCommands
-from RCApp.utils import add_time_stamp, WiFiClient
 
+from RCApp.commands import ButtonCommands, JoystickCommands, CameraCommands
+
+from RCApp.utils import add_time_stamp, WiFiClient
 
 class AppUI:
     
@@ -255,7 +256,7 @@ class AppUI:
                 self.wifi_client.connect()
         elif 0.5 <= value < 0.75:
             self.mode = "BT Mode"
-            self.wifi_client.disconnect()  # Disconnect WiFi if connected
+            self.wifi_clifrom RCApp.commands import ButtonCommands, JoystickCommandsent.disconnect()  # Disconnect WiFi if connected
         elif 0.75 <= value < 1.0:
             self.mode = "RF Mode"
             self.wifi_client.disconnect()  # Disconnect WiFi if connected
