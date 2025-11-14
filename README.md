@@ -10,7 +10,7 @@ This project is designed to create a small, versatile remote control application
   - **Mobile**: Compatible with Android and iOS devices.
 - **Communication Options**:
   - Bluetooth: For short-range, direct connections.
-  - Wi-Fi: For networked control over greater distances.
+  - Wi-Fi: For networked control over greater distances. Current draft implemented with a UDP Socket.
   - RF (Radio Frequency): For robust, hardware-supported communication.
 - **Mode Switching**: A dedicated button or UI element allows users to switch between Bluetooth, Wi-Fi, and RF modes effortlessly.
 - **Tech Stack**:
@@ -28,9 +28,10 @@ To develop and run this app, you'll need:
 
 ## How It Works
 
-- **Frontend**: The HTML-based interface replicates an Xbox controller layout, capturing user inputs (e.g., button presses, joystick movements) and sending them to the backend.
+- **Frontend**: The Tkinter-based interface replicates an Xbox controller layout, capturing user inputs (e.g., button presses, joystick movements) and sending them to the backend.
 - **Backend**: Python processes these inputs and communicates with the RC toy using the selected mode (Bluetooth, Wi-Fi, or RF).
-- **Mode Switching**: A UI toggle updates the backend to use the chosen communication protocol dynamically.
+- **Mode Switching**: A Slider implemented on the UI updates the backend to use the chosen communication protocol dynamically.
+- **Camera Feed:** A Resizeable Box implemented on the UI which shows the Camera Streaming (Camera integrated as part of the Server; Remote will act as the Video Stream Client).
 
 ## Setup Instructions
 
